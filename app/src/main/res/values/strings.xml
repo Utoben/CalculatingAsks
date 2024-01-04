@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CalculatingAsks</string>
+    <string name="example">10 + 5 = ?</string>
+    <string name="button_answer">Answer</string>
+    <string name="input_answer">Input answer</string>
+    <string name="sorry_answer_is_incorrect">Sorry, answer is incorrect</string>
+    <string name="correct_answer">You are right</string>
 </resources>
