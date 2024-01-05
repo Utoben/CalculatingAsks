@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.awt.font.NumericShaper;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import kotlin.random.URandomKt;
@@ -18,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private int nextFirstNum;
     private int nextSecNum;
     private int result;
+    String signValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +36,12 @@ public class MainActivity extends AppCompatActivity {
         TextView notSuccessView = findViewById(R.id.textViewIncorrectAnswer);
         TextView question = findViewById(R.id.textViewExample);
 
-        question.setText(taskSentence(nextFirstNum, nextSecNum));
-        result = getResult(nextFirstNum, nextSecNum);
+        nextFirstNum = getFirstRandomNumber();
+        nextSecNum = getRandomNumber();
+        signValue = sign();
+
+        question.setText(taskSentence(nextFirstNum, nextSecNum, sign()));
+        result = getResult(nextFirstNum, nextSecNum, sign());
 
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 String text = editTextAnswer.getText().toString();
                 int number = Integer.parseInt(text);
 
-                result = getResult(nextFirstNum, nextSecNum);
-                Log.e(question.getText().toString(), "На экране: " + taskSentence(nextFirstNum, nextSecNum));
+                result = getResult(nextFirstNum, nextSecNum, signValue);
+                Log.e(question.getText().toString(), "На экране: " + taskSentence(nextFirstNum, nextSecNum,signValue));
 
                 if (number == result) {
                     successView.setVisibility(View.VISIBLE);
@@ -65,33 +73,53 @@ public class MainActivity extends AppCompatActivity {
                 successView.setVisibility(View.GONE);
                 notSuccessView.setVisibility(View.GONE);
 
-                nextFirstNum = getRandomNumber();
+                nextFirstNum = getFirstRandomNumber();
                 nextSecNum = getRandomNumber();
 
-                question.setText(taskSentence(nextFirstNum, nextSecNum));
-                result = getResult(nextFirstNum, nextSecNum);
-                Log.e(question.getText().toString(), "На экране: " + taskSentence(nextFirstNum, nextSecNum));
+                signValue = sign();
+
+                question.setText(taskSentence(nextFirstNum, nextSecNum, signValue));
+                result = getResult(nextFirstNum, nextSecNum, signValue);
+                Log.e(question.getText().toString(), "На экране: " + taskSentence(nextFirstNum, nextSecNum, signValue));
 
                 editTextAnswer.getText().clear();
 
             }
         });
-
-
     }
-    public static int getResult ( int nextFirstNum, int nextSecNum){
-        return nextFirstNum + nextSecNum;
+    public static int getResult ( int nextFirstNum, int nextSecNum, String sign){
+        switch (sign){
+            case "+":
+                return nextFirstNum + nextSecNum;
+            case "-":
+                return nextFirstNum - nextSecNum;
+//            case "*":
+//                return nextFirstNum * nextSecNum;
+//            case "/":
+//                return nextFirstNum / nextSecNum;
+            default:
+                return 0;
+        }
     }
-    public static StringBuilder taskSentence ( int nextFirstNum, int nextSecNum){
-
-
-        StringBuilder task = new StringBuilder(String.format("%s + %s = ", nextFirstNum, nextSecNum));
+    public static StringBuilder taskSentence ( int nextFirstNum, int nextSecNum, String sign){
+        StringBuilder task = new StringBuilder(String.format("%s %s %s = ", nextFirstNum, sign, nextSecNum));
         return task;
     }
 
+    public static String sign(){
+        Random rand = new Random();
+        List<String> givenList = Arrays.asList("+", "-");
+        return givenList.get(rand.nextInt(givenList.size()));
+    }
+
+    public static int getFirstRandomNumber()
+    {
+        int max = 50;
+        return (int) (Math.random() * ++max) + 10;
+    }
     public static int getRandomNumber()
     {
-        return (int) (Math.random() * 50) + 1;
+        return (int) (Math.random() * 10) + 1;
     }
 
 

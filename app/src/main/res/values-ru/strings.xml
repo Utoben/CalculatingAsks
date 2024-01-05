@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_answer">Проверим</string>
+    <string name="input_answer">Введите ответ</string>
+    <string name="sorry_answer_is_incorrect">Неправильно</string>
+    <string name="correct_answer">Правильно</string>
+    <string name="app_name">Проверь как вычисляешь</string>
+    <string name="next">Дальше</string>
+</resources>
